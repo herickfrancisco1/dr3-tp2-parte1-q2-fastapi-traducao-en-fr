@@ -1,0 +1,10 @@
+fastapi>=0.115
+uvicorn[standard]>=0.30
+pydantic-settings>=2.3
+transformers>=4.44,<5  # o pipeline "translation" foi removido no transformers 5.x
+torch>=2.3
+sentencepiece>=0.2  # tokenizer dos modelos MarianMT
+sacremoses>=0.1
+# testes
+pytest>=8.0
+httpx>=0.27

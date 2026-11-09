@@ -1,3 +1,5 @@
+"""Testes da segmentação de texto (funções puras: rodam sem o modelo)."""
+
 from app.text_chunking import chunk_paragraph, chunk_text, split_paragraphs
 
 

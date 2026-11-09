@@ -47,9 +47,7 @@ def test_translate_rejects_invalid_text(client, payload):
 
 @pytest.mark.skipif(not os.getenv("RUN_INTEGRATION"), reason="defina RUN_INTEGRATION=1")
 def test_translate_with_real_model_short_and_long_text():
-    long_text = "\n\n".join(
-        ["The weather is nice today, so we decided to go for a walk in the park. " * 15] * 3
-    )
+    long_text = "\n\n".join(["The weather is nice today, so we decided to go for a walk in the park. " * 15] * 3)
     with TestClient(app) as real_client:
         short = real_client.post("/translate", json={"text": "I love programming."}).json()
         long = real_client.post("/translate", json={"text": long_text}).json()

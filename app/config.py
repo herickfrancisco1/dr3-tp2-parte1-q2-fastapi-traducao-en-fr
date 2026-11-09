@@ -6,6 +6,10 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
+    """Configurações da aplicação. Cada campo pode ser sobrescrito por uma variável de ambiente com prefixo APP_ (ex.:
+    APP_DEVICE=0) ou pelo arquivo .env.
+    """
+
     model_config = SettingsConfigDict(env_file=".env", env_prefix="APP_", extra="ignore")
 
     hf_model: str = "Helsinki-NLP/opus-mt-en-fr"
@@ -16,4 +20,5 @@ class Settings(BaseSettings):
 
 @lru_cache
 def get_settings() -> Settings:
+    """Devolve as configurações. O @lru_cache faz o .env e as variáveis de ambiente serem lidos uma única vez."""
     return Settings()

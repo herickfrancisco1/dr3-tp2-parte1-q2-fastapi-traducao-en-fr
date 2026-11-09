@@ -20,10 +20,12 @@ _SENTENCE_RE = re.compile(r"(?<=[.!?;])\s+")
 
 
 def split_paragraphs(text: str) -> list[str]:
+    """Separa o texto em parágrafos (blocos divididos por linha em branco), descartando os vazios."""
     return [p.strip() for p in _PARAGRAPH_RE.split(text) if p.strip()]
 
 
 def split_sentences(paragraph: str) -> list[str]:
+    """Separa um parágrafo em frases, quebrando após '.', '!', '?' ou ';' seguidos de espaço."""
     return [s.strip() for s in _SENTENCE_RE.split(paragraph) if s.strip()]
 
 

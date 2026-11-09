@@ -36,6 +36,7 @@ app = FastAPI(
 
 
 def get_translator(request: Request) -> TranslatorProtocol:
+    """Dependência do FastAPI: entrega à rota o tradutor carregado no startup (ou HTTP 503 se ainda não carregou)."""
     translator = getattr(request.app.state, "translator", None)
     if translator is None:
         raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, "Modelo ainda não carregado.")
@@ -44,6 +45,9 @@ def get_translator(request: Request) -> TranslatorProtocol:
 
 @app.get("/health", response_model=HealthResponse, tags=["infra"])
 def health(request: Request) -> HealthResponse:
+    """Rota de verificação (GET /health): informa se a API está no ar e se o modelo foi carregado. Útil para
+    monitoramento.
+    """
     return HealthResponse(
         status="ok",
         model=get_settings().hf_model,
@@ -56,6 +60,9 @@ def translate(
     payload: TranslationRequest,
     translator: TranslatorProtocol = Depends(get_translator),
 ) -> TranslationResponse:
+    """Rota POST /translate: recebe o texto já validado pelo Pydantic, traduz, mede o tempo e devolve JSON. Erros
+    inesperados do modelo viram HTTP 500.
+    """
     start = time.perf_counter()
     try:
         result = translator.translate(payload.text)
